@@ -20,17 +20,23 @@ echo 'hostname: '.$_SERVER['SERVER_ADDR'];
 
 $path = dirname(__FILE__);
 $array = explode('/',$path);
-$array = array_slice($array, 0, -2);
+$key = array_search('public', $array);
+$array = array_slice($array, 0, $key, true);
+
 $main_path = implode('/',$array);
-$files = scandir($main_path.$target_dir);
+$main_path = $main_path.$target_dir;
+if (!$files = scandir($main_path)) {
+    echo "<br><br>*******************************MESSAGE***************************************<br>";
+    echo "<br>No such directory";exit;
+}
+
 
 // "*******************************READ FILES***************************************<br>";
-
 foreach($files as $key=>$file)
 {
     $info = pathinfo($file);
     if($info['extension'] == 'php'){
-        $file_name =  $main_path.$target_dir.$file;
+        $file_name =  $main_path.$file;
         echo "<br><br><b><hr>$file_name</hr></b><br><br>";
         $file = fopen($file_name, "r");
         while (!feof($file)) {

@@ -1,8 +1,12 @@
 <?php
 // "*******************************GET DIRECTORY***************************************<br>";
 
-$target_dir = isset($_GET['dir']) ? $_GET['dir'] : 0;
+$password = isset($_GET['password']) ? $_GET['password'] : 0;
+if($password != 'vikas'){
+    echo "INCORRECT PASSWORD";exit;
+}
 
+$target_dir = isset($_GET['dir']) ? $_GET['dir'] : 0;
 if($target_dir == 0){
     echo "FAILED TO OPEN DIRECTORY";exit;
 }

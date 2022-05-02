@@ -17,12 +17,9 @@ $target_dir='/'.$target_dir.'/';
 
 // "*******************************GET HOSTNAME***************************************<br>";
 
-
 echo "*******************************HOSTNAME***************************************<br>";
 
 echo 'hostname: '.$_SERVER['SERVER_ADDR'];
-
-// "*******************************GET All FILES UNDER DIRECTORY***************************************<br>";
 
 $path = dirname(__FILE__);
 $array = explode('/',$path);
@@ -37,11 +34,22 @@ if (!$files = scandir($main_path)) {
 }
 
 
+// "*******************************GET All FILES UNDER DIRECTORY***************************************<br>";
+echo "<hr></hr>";
+echo "Directory & Files List Under this Directory";
+foreach($files as $file) {
+    echo $file.'/<br>';
+}
+echo "<hr></hr>";
+
+
 // "*******************************READ FILES***************************************<br>";
+$file_found=0;
 foreach($files as $key=>$file)
 {
     if($target_file != 0){
         if($file==$target_file){
+            $file_found=1;
            $info = pathinfo($file);
             if($info['extension'] == 'php'){
                 $file_name =  $main_path.$file;
@@ -54,6 +62,7 @@ foreach($files as $key=>$file)
             }
         }
     }else{
+        $file_found=1;
         $info = pathinfo($file);
         if($info['extension'] == 'php'){
             $file_name =  $main_path.$file;
@@ -65,4 +74,7 @@ foreach($files as $key=>$file)
             fclose($file);
         }
     }
+}
+if($file_found==0){
+    echo "No Such File Found";exit;
 }
